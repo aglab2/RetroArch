@@ -232,10 +232,11 @@ static void cocoa_gl_gfx_ctx_get_video_size(void *data,
 
 static gfx_ctx_proc_t cocoa_gl_gfx_ctx_get_proc_address(const char *symbol_name)
 {
-   return (gfx_ctx_proc_t)CFBundleGetFunctionPointerForName(
-         CFBundleGetBundleWithIdentifier(GLFrameworkID),
-         (BRIDGE CFStringRef)BOXSTRING(symbol_name)
-         );
+    const char* sym = CFBundleGetFunctionPointerForName(
+                                   CFBundleGetBundleWithIdentifier(GLFrameworkID),
+                                   (BRIDGE CFStringRef)BOXSTRING(symbol_name)
+                                   );
+   return (gfx_ctx_proc_t)sym;
 }
 
 static void cocoa_gl_gfx_ctx_bind_hw_render(void *data, bool enable)
@@ -367,7 +368,6 @@ static bool cocoa_gl_gfx_ctx_set_video_mode(void *data,
       {
          case 3:
 #if MAC_OS_X_VERSION_10_7
-            if (g_gl_minor >= 1 && g_gl_minor <= 3)
             {
                attributes[6] = NSOpenGLPFAOpenGLProfile;
                attributes[7] = NSOpenGLProfileVersion3_2Core;
@@ -376,7 +376,6 @@ static bool cocoa_gl_gfx_ctx_set_video_mode(void *data,
             break;
          case 4:
 #if MAC_OS_X_VERSION_10_10
-            if (g_gl_minor == 1)
             {
                attributes[6] = NSOpenGLPFAOpenGLProfile;
                attributes[7] = NSOpenGLProfileVersion4_1Core;

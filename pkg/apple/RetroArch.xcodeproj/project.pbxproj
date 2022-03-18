@@ -23,6 +23,10 @@
 		5061C8A41AE47E510080AE14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5061C8A31AE47E510080AE14 /* libz.dylib */; };
 		509F0C9D1AA23AFC00619ECC /* griffin_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 509F0C9C1AA23AFC00619ECC /* griffin_objc.m */; };
 		840222FC1A889EE2009AB261 /* griffin.c in Sources */ = {isa = PBXBuildFile; fileRef = 840222FB1A889EE2009AB261 /* griffin.c */; };
+		84C3261E27E42F67002950BF /* griffin_glslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261C27E42F67002950BF /* griffin_glslang.cpp */; };
+		84C3261F27E42F67002950BF /* griffin_glslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261C27E42F67002950BF /* griffin_glslang.cpp */; };
+		84C3262027E42F67002950BF /* griffin_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261D27E42F67002950BF /* griffin_cpp.cpp */; };
+		84C3262127E42F67002950BF /* griffin_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261D27E42F67002950BF /* griffin_cpp.cpp */; };
 		84DD5EA31A89E2AA007336C1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		84DD5EA91A89E4BE007336C1 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD5EA81A89E4BE007336C1 /* CoreAudio.framework */; };
 		84DD5EAD1A89E5B4007336C1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD5EAC1A89E5B4007336C1 /* OpenGL.framework */; };
@@ -82,6 +86,8 @@
 		5061C8A31AE47E510080AE14 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		509F0C9C1AA23AFC00619ECC /* griffin_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = griffin_objc.m; path = ../../griffin/griffin_objc.m; sourceTree = "<group>"; };
 		840222FB1A889EE2009AB261 /* griffin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = griffin.c; path = ../../griffin/griffin.c; sourceTree = SOURCE_ROOT; };
+		84C3261C27E42F67002950BF /* griffin_glslang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = griffin_glslang.cpp; path = ../../griffin/griffin_glslang.cpp; sourceTree = "<group>"; };
+		84C3261D27E42F67002950BF /* griffin_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = griffin_cpp.cpp; path = ../../griffin/griffin_cpp.cpp; sourceTree = "<group>"; };
 		84DD5E9E1A88E45B007336C1 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		84DD5EA61A89E406007336C1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = /System/Library/Frameworks/CoreLocation.framework; sourceTree = "<absolute>"; };
 		84DD5EA81A89E4BE007336C1 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
@@ -219,6 +225,8 @@
 		840222FA1A889EA2009AB261 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				84C3261D27E42F67002950BF /* griffin_cpp.cpp */,
+				84C3261C27E42F67002950BF /* griffin_glslang.cpp */,
 				509F0C9C1AA23AFC00619ECC /* griffin_objc.m */,
 				840222FB1A889EE2009AB261 /* griffin.c */,
 			);
@@ -332,8 +340,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C3261E27E42F67002950BF /* griffin_glslang.cpp in Sources */,
 				500845291B89300700CE6073 /* griffin_objc.m in Sources */,
 				5008452A1B89300700CE6073 /* griffin.c in Sources */,
+				84C3262027E42F67002950BF /* griffin_cpp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,8 +351,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C3261F27E42F67002950BF /* griffin_glslang.cpp in Sources */,
 				509F0C9D1AA23AFC00619ECC /* griffin_objc.m in Sources */,
 				840222FC1A889EE2009AB261 /* griffin.c in Sources */,
+				84C3262127E42F67002950BF /* griffin_cpp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,11 +474,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = x86_64;
 				CODE_SIGN_ENTITLEMENTS = RetroArch.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = UK699V5ZS8;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -490,7 +502,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/OSX/Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.libretro.RetroArch;
 				PRODUCT_NAME = RetroArch;
@@ -504,11 +516,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = x86_64;
 				CODE_SIGN_ENTITLEMENTS = RetroArch.entitlements;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = UK699V5ZS8;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -530,7 +542,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/OSX/Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.libretro.RetroArch;
 				PRODUCT_NAME = RetroArch;
@@ -541,12 +553,14 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = (
 					"-DHAVE_RUNAHEAD",
@@ -619,20 +633,26 @@
 					"-DHAVE_AUDIOMIXER",
 					"-DHAVE_RWAV",
 					"-DHAVE_GETOPT_LONG",
+					"-DHAVE_SLANG",
+					"-DHAVE_SPIRV_CROSS",
+					"-DHAVE_OPENGL_CORE",
 				);
 				PREBINDING = NO;
 				SDKROOT = macosx;
+				SYSTEM_HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../../deps/SPIRV-Cross";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = (
 					"-DHAVE_RUNAHEAD",
 					"-DHAVE_TRANSLATE",
@@ -704,9 +724,13 @@
 					"-DHAVE_AUDIOMIXER",
 					"-DHAVE_RWAV",
 					"-DHAVE_GETOPT_LONG",
+					"-DHAVE_SLANG",
+					"-DHAVE_SPIRV_CROSS",
+					"-DHAVE_OPENGL_CORE",
 				);
 				PREBINDING = NO;
 				SDKROOT = macosx;
+				SYSTEM_HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../../deps/SPIRV-Cross";
 			};
 			name = Release;
 		};
