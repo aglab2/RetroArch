@@ -94,15 +94,15 @@ enum vulkan_wsi_type
 
 #ifdef VULKAN_HDR_SWAPCHAIN
 
-#ifndef ALIGN
+#ifndef RETRO_ALIGN
 #ifdef _MSC_VER
-#define ALIGN(x) __declspec(align(x))
+#define RETRO_ALIGN(x) __declspec(align(x))
 #else
-#define ALIGN(x) __attribute__((aligned(x)))
+#define RETRO_ALIGN(x) __attribute__((aligned(x)))
 #endif
 #endif
 
-typedef struct ALIGN(16)
+typedef struct RETRO_ALIGN(16)
 {
    math_matrix_4x4   mvp;
    float             contrast;         /* 2.0f    */

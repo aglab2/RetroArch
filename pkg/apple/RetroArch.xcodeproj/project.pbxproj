@@ -23,6 +23,8 @@
 		5061C8A41AE47E510080AE14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5061C8A31AE47E510080AE14 /* libz.dylib */; };
 		509F0C9D1AA23AFC00619ECC /* griffin_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 509F0C9C1AA23AFC00619ECC /* griffin_objc.m */; };
 		840222FC1A889EE2009AB261 /* griffin.c in Sources */ = {isa = PBXBuildFile; fileRef = 840222FB1A889EE2009AB261 /* griffin.c */; };
+		840E04C727F0976000752DBF /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840E04C627F0976000752DBF /* Metal.framework */; };
+		840E04C927F0978200752DBF /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840E04C827F0978200752DBF /* MetalKit.framework */; };
 		84C3261E27E42F67002950BF /* griffin_glslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261C27E42F67002950BF /* griffin_glslang.cpp */; };
 		84C3261F27E42F67002950BF /* griffin_glslang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261C27E42F67002950BF /* griffin_glslang.cpp */; };
 		84C3262027E42F67002950BF /* griffin_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84C3261D27E42F67002950BF /* griffin_cpp.cpp */; };
@@ -86,6 +88,8 @@
 		5061C8A31AE47E510080AE14 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		509F0C9C1AA23AFC00619ECC /* griffin_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = griffin_objc.m; path = ../../griffin/griffin_objc.m; sourceTree = "<group>"; };
 		840222FB1A889EE2009AB261 /* griffin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = griffin.c; path = ../../griffin/griffin.c; sourceTree = SOURCE_ROOT; };
+		840E04C627F0976000752DBF /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		840E04C827F0978200752DBF /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
 		84C3261C27E42F67002950BF /* griffin_glslang.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = griffin_glslang.cpp; path = ../../griffin/griffin_glslang.cpp; sourceTree = "<group>"; };
 		84C3261D27E42F67002950BF /* griffin_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = griffin_cpp.cpp; path = ../../griffin/griffin_cpp.cpp; sourceTree = "<group>"; };
 		84DD5E9E1A88E45B007336C1 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
@@ -129,6 +133,8 @@
 				84DD5EAD1A89E5B4007336C1 /* OpenGL.framework in Frameworks */,
 				84DD5EA31A89E2AA007336C1 /* AppKit.framework in Frameworks */,
 				84DD5EB51A89E737007336C1 /* IOKit.framework in Frameworks */,
+				840E04C727F0976000752DBF /* Metal.framework in Frameworks */,
+				840E04C927F0978200752DBF /* MetalKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +221,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				840E04C827F0978200752DBF /* MetalKit.framework */,
+				840E04C627F0976000752DBF /* Metal.framework */,
 				5061C8A31AE47E510080AE14 /* libz.dylib */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -502,7 +510,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/OSX/Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.libretro.RetroArch;
 				PRODUCT_NAME = RetroArch;
@@ -542,7 +550,7 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/OSX/Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.libretro.RetroArch;
 				PRODUCT_NAME = RetroArch;
@@ -614,7 +622,6 @@
 					"-DHAVE_RJPEG",
 					"-DHAVE_RBMP",
 					"-DHAVE_RTGA",
-					"-DHAVE_COCOA",
 					"-DHAVE_MAIN",
 					"-DHAVE_NETWORKGAMEPAD",
 					"-DHAVE_NETWORKING",
@@ -636,6 +643,9 @@
 					"-DHAVE_SLANG",
 					"-DHAVE_SPIRV_CROSS",
 					"-DHAVE_OPENGL_CORE",
+					"-DHAVE_VULKAN",
+					"-DHAVE_COCOA_METAL",
+					"-DHAVE_METAL",
 				);
 				PREBINDING = NO;
 				SDKROOT = macosx;
@@ -705,7 +715,6 @@
 					"-DHAVE_RJPEG",
 					"-DHAVE_RBMP",
 					"-DHAVE_RTGA",
-					"-DHAVE_COCOA",
 					"-DHAVE_MAIN",
 					"-DHAVE_NETWORKGAMEPAD",
 					"-DHAVE_NETWORKING",
@@ -727,6 +736,9 @@
 					"-DHAVE_SLANG",
 					"-DHAVE_SPIRV_CROSS",
 					"-DHAVE_OPENGL_CORE",
+					"-DHAVE_VULKAN",
+					"-DHAVE_COCOA_METAL",
+					"-DHAVE_METAL",
 				);
 				PREBINDING = NO;
 				SDKROOT = macosx;

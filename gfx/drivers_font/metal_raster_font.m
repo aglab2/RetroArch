@@ -27,7 +27,7 @@
 
 @interface MetalRaster : NSObject
 {
-   __weak MetalDriver *_driver;
+   MetalDriver *_driver;
    const font_renderer_driver_t *_font_driver;
    void *_font_data;
    struct font_atlas *_atlas;
