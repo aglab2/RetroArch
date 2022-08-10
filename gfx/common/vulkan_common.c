@@ -1855,7 +1855,7 @@ bool vulkan_context_init(gfx_ctx_vulkan_data_t *vk,
 #ifdef _WIN32
       vulkan_library = dylib_load("vulkan-1.dll");
 #elif __APPLE__
-      vulkan_library = dylib_load("libMoltenVK.dylib");
+      vulkan_library = dylib_load("@executable_path/../Frameworks/libMoltenVK.dylib");
 #else
       vulkan_library = dylib_load("libvulkan.so");
       if (!vulkan_library)
@@ -2362,7 +2362,7 @@ bool vulkan_surface_create(gfx_ctx_vulkan_data_t *vk,
             return false;
          break;
       case VULKAN_WSI_MVK_MACOS:
-#ifdef HAVE_COCOA
+#ifdef HAVE_COCOA_METAL
          {
             PFN_vkCreateMacOSSurfaceMVK create;
             if (!VULKAN_SYMBOL_WRAPPER_LOAD_INSTANCE_SYMBOL(vk->context.instance, "vkCreateMacOSSurfaceMVK", create))
