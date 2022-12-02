@@ -24,10 +24,7 @@
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 #ifdef OSX
-#include <OpenGL/CGLTypes.h>
-#include <OpenGL/OpenGL.h>
-#include <AppKit/NSScreen.h>
-#include <AppKit/NSOpenGL.h>
+#include "MGLKit.h"
 #elif defined(HAVE_COCOATOUCH)
 #include <GLKit/GLKit.h>
 #endif
@@ -51,20 +48,16 @@
 #define GLContextClass  EAGLContext
 #define GLFrameworkID   CFSTR("com.apple.opengles")
 #else
-#define GLContextClass  NSOpenGLContext
-#define GLFrameworkID   CFSTR("com.apple.opengl")
+#define GLContextClass  MGLContext
+#define GLFrameworkID   CFSTR("com.google.OpenGLES")
 #endif
 
 typedef struct cocoa_ctx_data
 {
-#ifndef OSX
    int fast_forward_skips;
-#endif
    unsigned width;
    unsigned height;
-#ifndef OSX
    bool is_syncing;
-#endif
    bool core_hw_context_enable;
    bool use_hw_ctx;
 } cocoa_ctx_data_t;
@@ -75,9 +68,7 @@ static GLContextClass* g_hw_ctx     = NULL;
 static GLContextClass* g_ctx        = NULL;
 static unsigned g_gl_minor          = 0;
 static unsigned g_gl_major          = 0;
-#if defined(HAVE_COCOATOUCH)
-static GLKView *glk_view            = NULL;
-#endif
+static MGLKView *glk_view            = NULL;
 
 /* Forward declaration */
 CocoaView *cocoaview_get(void);
@@ -127,23 +118,15 @@ static void cocoa_gl_gfx_ctx_set_flags(void *data, uint32_t flags)
       cocoa_ctx->core_hw_context_enable = true;
 }
 
-#if defined(OSX)
-void cocoa_gl_gfx_ctx_update(void)
-{
-   [g_ctx    update];
-   [g_hw_ctx update];
-}
-#else
-#if defined(HAVE_COCOATOUCH)
 void *glkitview_init(void)
 {
-   glk_view                      = [GLKView new];
+   glk_view                      = [MGLKView new];
 #if TARGET_OS_IOS
    glk_view.multipleTouchEnabled = YES;
-#endif
    glk_view.enableSetNeedsDisplay = NO;
+#endif
 
-   return (BRIDGE void *)((GLKView*)glk_view);
+   return (BRIDGE void *)((MGLKView*)glk_view);
 }
 
 void glkitview_bind_fbo(void)
@@ -151,9 +134,6 @@ void glkitview_bind_fbo(void)
    if (glk_view)
       [glk_view bindDrawable];
 }
-#endif
-#endif
-
 
 static void cocoa_gl_gfx_ctx_destroy(void *data)
 {
@@ -162,13 +142,7 @@ static void cocoa_gl_gfx_ctx_destroy(void *data)
    if (!cocoa_ctx)
       return;
 #ifdef OSX
-   [GLContextClass clearCurrentContext];
-   [g_ctx clearDrawable];
-   RELEASE(g_ctx);
-   if (g_hw_ctx)
-      [g_hw_ctx clearDrawable];
-   RELEASE(g_hw_ctx);
-   [GLContextClass clearCurrentContext];
+   [MGLContext setCurrentContext:nil];
 #else
    [EAGLContext setCurrentContext:nil];
 #endif
@@ -247,11 +221,11 @@ static void cocoa_gl_gfx_ctx_bind_hw_render(void *data, bool enable)
 #ifdef OSX
    if (enable)
    {
-      [g_hw_ctx makeCurrentContext];
+      [MGLContext setCurrentContext:g_hw_ctx];
    }
    else
    {
-      [g_ctx makeCurrentContext];
+      [MGLContext setCurrentContext:g_ctx];
    }
 #else
    if (enable)
@@ -291,8 +265,11 @@ static void cocoa_gl_gfx_ctx_swap_interval(void *data, int i)
 {
    unsigned interval             = (unsigned)i;
 #ifdef OSX
-   GLint value                   = interval ? 1 : 0;
-   [g_ctx setValues:&value forParameter:NSOpenGLCPSwapInterval];
+   cocoa_ctx_data_t *cocoa_ctx   = (cocoa_ctx_data_t*)data;
+   /* < No way to disable Vsync on iOS? */
+   /*   Just skip presents so fast forward still works. */
+   cocoa_ctx->is_syncing         = interval ? true : false;
+   cocoa_ctx->fast_forward_skips = interval ? 0 : 3;
 #else
    cocoa_ctx_data_t *cocoa_ctx   = (cocoa_ctx_data_t*)data;
    /* < No way to disable Vsync on iOS? */
@@ -305,8 +282,12 @@ static void cocoa_gl_gfx_ctx_swap_interval(void *data, int i)
 static void cocoa_gl_gfx_ctx_swap_buffers(void *data)
 {
 #ifdef OSX
-   [g_ctx flushBuffer];
-   [g_hw_ctx  flushBuffer];
+   cocoa_ctx_data_t *cocoa_ctx = (cocoa_ctx_data_t*)data;
+   if (!(--cocoa_ctx->fast_forward_skips < 0))
+      return;
+   if (glk_view)
+      [glk_view display];
+   cocoa_ctx->fast_forward_skips = cocoa_ctx->is_syncing ? 0 : 3;
 #else
    cocoa_ctx_data_t *cocoa_ctx = (cocoa_ctx_data_t*)data;
    if (!(--cocoa_ctx->fast_forward_skips < 0))
@@ -331,84 +312,17 @@ static bool cocoa_gl_gfx_ctx_bind_api(void *data, enum gfx_ctx_api api,
 static bool cocoa_gl_gfx_ctx_set_video_mode(void *data,
       unsigned width, unsigned height, bool fullscreen)
 {
-#if defined(HAVE_COCOA_METAL)
-   NSView *g_view              = apple_platform.renderView;
-#elif defined(HAVE_COCOA)
-   CocoaView *g_view           = (CocoaView*)nsview_get_ptr();
-#endif
    cocoa_ctx_data_t *cocoa_ctx = (cocoa_ctx_data_t*)data;
-   static bool 
+   static bool
       has_went_fullscreen      = false;
-   cocoa_ctx->width            = width;
-   cocoa_ctx->height           = height;
+   
+   if (cocoa_ctx->use_hw_ctx)
+      g_hw_ctx      = [[MGLContext alloc] initWithAPI:kMGLRenderingAPIOpenGLES3];
+   g_ctx            = [[MGLContext alloc] initWithAPI:kMGLRenderingAPIOpenGLES3];
+   glk_view.context = g_ctx;
 
-   /* NOTE: setWantsBestResolutionOpenGLSurface only 
-    * available on MacOS X 10.7 and up.
-    * Deprecated as of MacOS X 10.14. */
-#if MAC_OS_X_VERSION_10_7
-   [g_view setWantsBestResolutionOpenGLSurface:YES];
-#endif
-
-   {
-      NSOpenGLPixelFormat *fmt;
-      NSOpenGLPixelFormatAttribute attributes [] = {
-         NSOpenGLPFAColorSize,
-         24,
-         NSOpenGLPFADoubleBuffer,
-         NSOpenGLPFAAllowOfflineRenderers,
-         NSOpenGLPFADepthSize,
-         (NSOpenGLPixelFormatAttribute)16, /* 16 bit depth buffer */
-         0,                                /* profile */
-         0,                                /* profile enum */
-         (NSOpenGLPixelFormatAttribute)0
-      };
-
-      switch (g_gl_major)
-      {
-         case 3:
-#if MAC_OS_X_VERSION_10_7
-            {
-               attributes[6] = NSOpenGLPFAOpenGLProfile;
-               attributes[7] = NSOpenGLProfileVersion3_2Core;
-            }
-#endif
-            break;
-         case 4:
-#if MAC_OS_X_VERSION_10_10
-            {
-               attributes[6] = NSOpenGLPFAOpenGLProfile;
-               attributes[7] = NSOpenGLProfileVersion4_1Core;
-            }
-#endif
-            break;
-      }
-
-      fmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-
-#if MAC_OS_X_VERSION_MIN_REQUIRED < 1050
-      if (fmt == nil)
-      {
-         /* NSOpenGLFPAAllowOfflineRenderers is
-            not supported on this OS version. */
-         attributes[3]  = (NSOpenGLPixelFormatAttribute)0;
-         fmt            = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
-      }
-#endif
-
-      if (cocoa_ctx->use_hw_ctx)
-      {
-         g_hw_ctx       = [[NSOpenGLContext alloc] initWithFormat:fmt shareContext:nil];
-         g_ctx          = [[NSOpenGLContext alloc] initWithFormat:fmt shareContext:g_hw_ctx];
-      }
-      else
-         g_ctx          = [[NSOpenGLContext alloc] initWithFormat:fmt shareContext:nil];
-
-      RELEASE(fmt);
-   }
-
-   [g_ctx setView:g_view];
 #ifdef OSX
-   [g_ctx makeCurrentContext];
+   [MGLContext setCurrentContext:g_ctx];
 #else
    [EAGLContext setCurrentContext:g_ctx];
 #endif
@@ -418,7 +332,7 @@ static bool cocoa_gl_gfx_ctx_set_video_mode(void *data,
    {
       if (!has_went_fullscreen)
       {
-         [g_view enterFullScreenMode:(BRIDGE NSScreen *)cocoa_screen_get_chosen() withOptions:nil];
+         [glk_view enterFullScreenMode:(BRIDGE NSScreen *)cocoa_screen_get_chosen() withOptions:nil];
          cocoa_show_mouse(data, false);
       }
    }
@@ -426,12 +340,12 @@ static bool cocoa_gl_gfx_ctx_set_video_mode(void *data,
    {
       if (has_went_fullscreen)
       {
-         [g_view exitFullScreenModeWithOptions:nil];
-         [[g_view window] makeFirstResponder:g_view];
+         [glk_view exitFullScreenModeWithOptions:nil];
+         [[glk_view window] makeFirstResponder:glk_view];
          cocoa_show_mouse(data, true);
       }
 
-      [[g_view window] setContentSize:NSMakeSize(width, height)];
+      [[glk_view window] setContentSize:NSMakeSize(width, height)];
    }
 
    has_went_fullscreen = fullscreen;
@@ -447,9 +361,7 @@ static void *cocoa_gl_gfx_ctx_init(void *video_driver)
    if (!cocoa_ctx)
       return NULL;
 
-#ifndef OSX
    cocoa_ctx->is_syncing       = true;
-#endif
 
 #if defined(HAVE_COCOA_METAL)
    [apple_platform setViewType:APPLE_VIEW_TYPE_OPENGL];
@@ -469,7 +381,7 @@ static bool cocoa_gl_gfx_ctx_set_video_mode(void *data,
    glk_view.context = g_ctx;
 
 #ifdef OSX
-   [g_ctx makeCurrentContext];
+   [MGLContext setCurrentContext:g_ctx];
 #else
    [EAGLContext setCurrentContext:g_ctx];
 #endif
@@ -487,9 +399,7 @@ static void *cocoa_gl_gfx_ctx_init(void *video_driver)
    if (!cocoa_ctx)
       return NULL;
 
-#ifndef OSX
    cocoa_ctx->is_syncing       = true;
-#endif
     
    switch (cocoagl_api)
    {

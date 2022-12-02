@@ -22,10 +22,6 @@
 #include <retro_inline.h>
 #include <gfx/math/matrix_4x4.h>
 
-#if defined(__APPLE__)
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#else
 #if defined(_WIN32) && !defined(_XBOX)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -35,7 +31,6 @@
 #else
 #include <GL/gl.h>
 #include <GL/glext.h>
-#endif
 #endif
 
 #include "../../retroarch.h"

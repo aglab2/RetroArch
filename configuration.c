@@ -364,7 +364,7 @@ const struct input_bind_map input_config_bind_map[RARCH_BIND_LIST_END_NULL] = {
 
 #if defined(HAVE_METAL)
 /* iOS supports both the OpenGL and Metal video drivers; default to OpenGL since Metal support is preliminary */
-#if defined(HAVE_COCOATOUCH) && defined(HAVE_OPENGL)
+#if defined(HAVE_COCOA) && defined(HAVE_OPENGL)
 static const enum video_driver_enum VIDEO_DEFAULT_DRIVER = VIDEO_GL;
 #else
 static const enum video_driver_enum VIDEO_DEFAULT_DRIVER = VIDEO_METAL;

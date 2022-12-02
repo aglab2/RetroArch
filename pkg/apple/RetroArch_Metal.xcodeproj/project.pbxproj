@@ -42,7 +42,7 @@
 		5061C8A41AE47E510080AE14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5061C8A31AE47E510080AE14 /* libz.dylib */; };
 		509F0C9D1AA23AFC00619ECC /* griffin_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 509F0C9C1AA23AFC00619ECC /* griffin_objc.m */; };
 		840222FC1A889EE2009AB261 /* griffin.c in Sources */ = {isa = PBXBuildFile; fileRef = 840222FB1A889EE2009AB261 /* griffin.c */; };
-		8449BACD28A3E95E00F453E5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8449BACC28A3E95E00F453E5 /* OpenGL.framework */; };
+		842E9BE5290958210027A8D0 /* MetalANGLE.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 842E9BE4290958210027A8D0 /* MetalANGLE.framework */; };
 		84DD5EA31A89E2AA007336C1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		84DD5EA91A89E4BE007336C1 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD5EA81A89E4BE007336C1 /* CoreAudio.framework */; };
 		84DD5EB31A89E6C0007336C1 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD5EB21A89E6C0007336C1 /* AudioUnit.framework */; };
@@ -511,6 +511,7 @@
 		509F0C9C1AA23AFC00619ECC /* griffin_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = griffin_objc.m; path = ../../griffin/griffin_objc.m; sourceTree = "<group>"; };
 		686201AB24B823A800EBDD95 /* RetroArch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RetroArch.entitlements; sourceTree = "<group>"; };
 		840222FB1A889EE2009AB261 /* griffin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = griffin.c; path = ../../griffin/griffin.c; sourceTree = SOURCE_ROOT; };
+		842E9BE4290958210027A8D0 /* MetalANGLE.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalANGLE.framework; path = ../../MetalANGLE.framework; sourceTree = "<group>"; };
 		8449BACC28A3E95E00F453E5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		84DD5E9E1A88E45B007336C1 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		84DD5EA61A89E406007336C1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = /System/Library/Frameworks/CoreLocation.framework; sourceTree = "<absolute>"; };
@@ -568,7 +569,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8449BACD28A3E95E00F453E5 /* OpenGL.framework in Frameworks */,
+				842E9BE5290958210027A8D0 /* MetalANGLE.framework in Frameworks */,
 				D27C508C2228362700113BC0 /* AudioToolbox.framework in Frameworks */,
 				D27C508B2228361D00113BC0 /* AVFoundation.framework in Frameworks */,
 				05A8E23C20A63CF50084ABDA /* QuartzCore.framework in Frameworks */,
@@ -1417,6 +1418,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				842E9BE4290958210027A8D0 /* MetalANGLE.framework */,
 				8449BACC28A3E95E00F453E5 /* OpenGL.framework */,
 				D27C50892228360D00113BC0 /* AudioToolbox.framework */,
 				D27C50872228360000113BC0 /* AVFoundation.framework */,
@@ -1854,10 +1856,32 @@
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCBASE)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCBASE)",
+					"$(SRCBASE)/gfx/include",
+					"$(SRCBASE)/libretro-common/include",
+					"$(SRCBASE)/libretro-common/include/compat/zlib",
+					"$(DEPS_DIR)/discord-rpc/include",
+					"$(DEPS_DIR)/libFLAC/include",
+					"$(DEPS_DIR)/7zip",
+					"$(DEPS_DIR)/rcheevos/include",
+					"$(DEPS_DIR)/stb",
+					"$(DEPS_DIR)",
+					"$(DEPS_DIR)/SPIRV-Cross",
+					"$(DEPS_DIR)/glslang",
+					"$(DEPS_DIR)/glslang/glslang/glslang/Public",
+					"$(DEPS_DIR)/glslang/glslang/glslang/MachineIndependent",
+					"$(DEPS_DIR)/glslang/glslang/SPIRV",
+					"$(DEPS_DIR)/glslang/glslang/glslang/OSDependent/Unix",
+					"$(SRCBASE)/MetalANGLE.framework/Headers",
+				);
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -1932,7 +1956,7 @@
 					"-DHAVE_GETOPT_LONG",
 					"-DHAVE_SLANG",
 					"-DHAVE_SPIRV_CROSS",
-					"-DHAVE_OPENGL_CORE",
+					"-DHAVE_OPENGLES",
 					"-DHAVE_VULKAN",
 					"-DHAVE_COCOA_METAL",
 					"-DHAVE_METAL",
@@ -1957,9 +1981,31 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCBASE)";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCBASE)",
+					"$(SRCBASE)/gfx/include",
+					"$(SRCBASE)/libretro-common/include",
+					"$(SRCBASE)/libretro-common/include/compat/zlib",
+					"$(DEPS_DIR)/discord-rpc/include",
+					"$(DEPS_DIR)/libFLAC/include",
+					"$(DEPS_DIR)/7zip",
+					"$(DEPS_DIR)/rcheevos/include",
+					"$(DEPS_DIR)/stb",
+					"$(DEPS_DIR)",
+					"$(DEPS_DIR)/SPIRV-Cross",
+					"$(DEPS_DIR)/glslang",
+					"$(DEPS_DIR)/glslang/glslang/glslang/Public",
+					"$(DEPS_DIR)/glslang/glslang/glslang/MachineIndependent",
+					"$(DEPS_DIR)/glslang/glslang/SPIRV",
+					"$(DEPS_DIR)/glslang/glslang/glslang/OSDependent/Unix",
+					"$(SRCBASE)/MetalANGLE.framework/Headers",
+				);
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks/";
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DHAVE_RUNAHEAD",
@@ -2033,7 +2079,7 @@
 					"-DHAVE_GETOPT_LONG",
 					"-DHAVE_SLANG",
 					"-DHAVE_SPIRV_CROSS",
-					"-DHAVE_OPENGL_CORE",
+					"-DHAVE_OPENGLES",
 					"-DHAVE_VULKAN",
 					"-DHAVE_COCOA_METAL",
 					"-DHAVE_METAL",

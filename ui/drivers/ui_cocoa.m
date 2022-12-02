@@ -577,7 +577,7 @@ static ui_application_t ui_application_cocoa = {
          break;
 
        case APPLE_VIEW_TYPE_OPENGL:
-         _renderView = [CocoaView get];
+         _renderView = (BRIDGE MGLKView*)glkitview_init();
          break;
 
        case APPLE_VIEW_TYPE_NONE:

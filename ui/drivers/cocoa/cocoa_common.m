@@ -108,8 +108,8 @@ void *glkitview_init(void);
    [super setFrame:frameRect];
 /* forward declarations */
 #if defined(HAVE_OPENGL)
-   void cocoa_gl_gfx_ctx_update(void);
-   cocoa_gl_gfx_ctx_update();
+   // void cocoa_gl_gfx_ctx_update(void);
+   // cocoa_gl_gfx_ctx_update();
 #endif
 }
 
