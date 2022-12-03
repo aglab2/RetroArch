@@ -169,7 +169,7 @@ static const gfx_ctx_driver_t *gfx_ctx_gl_drivers[] = {
 #endif
 #if defined(HAVE_COCOA) || defined(HAVE_COCOATOUCH) || defined(HAVE_COCOA_METAL)
 #if defined(HAVE_OPENGL) || defined(HAVE_OPENGLES)
-   &gfx_ctx_cocoagl,
+   &gfx_ctx_cocoaegl,
 #endif
 #endif
 #if (defined(HAVE_SDL) || defined(HAVE_SDL2)) && (defined(HAVE_OPENGL) || defined(HAVE_OPENGL1) || defined(HAVE_OPENGL_CORE))

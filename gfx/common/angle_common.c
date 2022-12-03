@@ -30,6 +30,7 @@
 #include "../../verbosity.h"
 #include "../../frontend/frontend_driver.h"
 
+#ifndef __APPLE__
  /* Normal DirectX 11 backend */
 static const EGLint backendD3D11[] =
 {
@@ -82,6 +83,32 @@ static const char* backendNamesList[] = {
    "D3D11 WARP Software Render Backend",
    NULL
 };
+#else
+/* Metal backend */
+static const EGLint backendMetal[] =
+{
+    EGL_PLATFORM_ANGLE_TYPE_ANGLE, EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE,
+    EGL_NONE,
+};
+
+static const EGLint backendVulkan[] =
+{
+    EGL_PLATFORM_ANGLE_TYPE_ANGLE, EGL_PLATFORM_ANGLE_TYPE_VULKAN_ANGLE,
+    EGL_NONE,
+};
+
+static const EGLint* backendList[] = {
+   backendMetal,
+   backendVulkan,
+   NULL
+};
+
+static const char* backendNamesList[] = {
+    "Metal Backend",
+    "Vulkan Backend",
+   NULL
+};
+#endif
 
 /* Try initializing EGL with the backend specified in display_attr. */
 static bool angle_try_initialize(egl_ctx_data_t* egl,
@@ -102,7 +129,10 @@ static bool angle_try_initialize(egl_ctx_data_t* egl,
 
    dpy = ptr_eglGetPlatformDisplayEXT(EGL_PLATFORM_ANGLE_ANGLE, display_data, display_attr);
    if (dpy == EGL_NO_DISPLAY)
+   {
+      egl_report_error();
       return false;
+   }
 
    if (!egl_initialize(dpy, major, minor))
    {

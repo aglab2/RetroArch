@@ -23,26 +23,7 @@
 #ifndef RGLGEN_PRIVATE_HEADERS_H__
 #define RGLGEN_PRIVATE_HEADERS_H__
 
-#if defined(IOS)
-
-#if defined(HAVE_OPENGLES3)
-#include <OpenGLES/ES3/gl.h>
-#include <OpenGLES/ES3/glext.h>
-#else
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#endif
-
-#elif defined(__APPLE__)
-#include <compat/apple_compat.h>
-#if MAC_OS_X_VERSION_10_7
-#include <OpenGL/gl3.h>
-#include <OpenGL/gl3ext.h>
-#else
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#endif
-#elif defined(HAVE_PSGL)
+#if defined(HAVE_PSGL)
 #include <PSGL/psgl.h>
 #include <GLES/glext.h>
 #elif defined(HAVE_OPENGL_MODERN)

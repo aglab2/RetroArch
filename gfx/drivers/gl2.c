@@ -294,11 +294,7 @@ static void gl2_size_format(GLint* internalFormat)
          *internalFormat = GL_RGB565;
          break;
       case GL_RGBA:
-#ifdef HAVE_OPENGLES2
-         *internalFormat = GL_RGBA8_OES;
-#else
          *internalFormat = GL_RGBA8;
-#endif
          break;
    }
 #endif

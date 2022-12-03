@@ -322,7 +322,7 @@ VIDEO CONTEXT
 #include "../gfx/drivers_context/vc_egl_ctx.c"
 #endif
 
-#if defined(_WIN32) && defined(HAVE_ANGLE)
+#if (defined(_WIN32) || defined(__APPLE__)) && defined(HAVE_ANGLE)
 #include "../gfx/common/angle_common.c"
 #endif
 

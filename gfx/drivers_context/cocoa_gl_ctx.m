@@ -26,6 +26,7 @@
 #ifdef OSX
 #include <OpenGL/CGLTypes.h>
 #include <OpenGL/OpenGL.h>
+x
 #include <AppKit/NSScreen.h>
 #include <AppKit/NSOpenGL.h>
 #elif defined(HAVE_COCOATOUCH)

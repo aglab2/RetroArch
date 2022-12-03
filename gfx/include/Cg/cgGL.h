@@ -102,15 +102,7 @@
 /* Use CGGL_NO_OPENGL to avoid including OpenGL headers. */
 
 #ifndef CGGL_NO_OPENGL
-# ifdef __APPLE__
-#if MAC_OS_X_VERSION_10_7
-#  include <OpenGL/gl3.h>
-#else
-#  include <OpenGL/gl.h>
-#endif
-# else
-#  include <GL/gl.h>
-# endif
+#include <GL/gl.h>
 #endif
 
 /*************************************************************************/

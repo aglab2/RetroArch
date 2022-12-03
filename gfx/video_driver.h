@@ -1477,6 +1477,7 @@ extern const gfx_ctx_driver_t gfx_ctx_videocore;
 extern const gfx_ctx_driver_t gfx_ctx_qnx;
 extern const gfx_ctx_driver_t gfx_ctx_cgl;
 extern const gfx_ctx_driver_t gfx_ctx_cocoagl;
+extern const gfx_ctx_driver_t gfx_ctx_cocoaegl;
 extern const gfx_ctx_driver_t gfx_ctx_cocoavk;
 extern const gfx_ctx_driver_t gfx_ctx_emscripten;
 extern const gfx_ctx_driver_t gfx_ctx_opendingux_fbdev;

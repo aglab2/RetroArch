@@ -31,7 +31,7 @@
 
 #include "../ui/drivers/cocoa/cocoa_common.m"
 #if defined(HAVE_OPENGL) || defined(HAVE_OPENGL_ES)
-#include "../gfx/drivers_context/cocoa_gl_ctx.m"
+#include "../gfx/drivers_context/cocoa_egl_ctx.m"
 #endif
 #if defined(HAVE_VULKAN)
 #include "../gfx/drivers_context/cocoa_vk_ctx.m"

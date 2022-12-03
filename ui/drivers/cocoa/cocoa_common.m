@@ -103,16 +103,6 @@ void *glkitview_init(void);
 }
 
 #if defined(OSX)
-- (void)setFrame:(NSRect)frameRect
-{
-   [super setFrame:frameRect];
-/* forward declarations */
-#if defined(HAVE_OPENGL)
-   void cocoa_gl_gfx_ctx_update(void);
-   cocoa_gl_gfx_ctx_update();
-#endif
-}
-
 /* Stop the annoying sound when pressing a key. */
 - (BOOL)acceptsFirstResponder { return YES; }
 - (BOOL)isFlipped { return YES; }
