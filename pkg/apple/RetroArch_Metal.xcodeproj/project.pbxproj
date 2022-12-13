@@ -42,8 +42,7 @@
 		5061C8A41AE47E510080AE14 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5061C8A31AE47E510080AE14 /* libz.dylib */; };
 		509F0C9D1AA23AFC00619ECC /* griffin_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = 509F0C9C1AA23AFC00619ECC /* griffin_objc.m */; };
 		840222FC1A889EE2009AB261 /* griffin.c in Sources */ = {isa = PBXBuildFile; fileRef = 840222FB1A889EE2009AB261 /* griffin.c */; };
-		84B390A2293AEC3200F12F51 /* libEGL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B390A1293AEC3200F12F51 /* libEGL.dylib */; };
-		84B390A4293AF21000F12F51 /* libGLESv2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B390A3293AF21000F12F51 /* libGLESv2.dylib */; };
+		84C3CD81293F9E7F007CFB8B /* libANGLE.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 84C3CD7F293F99C0007CFB8B /* libANGLE.dylib */; };
 		84DD5EA31A89E2AA007336C1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		84DD5EA91A89E4BE007336C1 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD5EA81A89E4BE007336C1 /* CoreAudio.framework */; };
 		84DD5EB31A89E6C0007336C1 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84DD5EB21A89E6C0007336C1 /* AudioUnit.framework */; };
@@ -515,6 +514,7 @@
 		8449BACC28A3E95E00F453E5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		84B390A1293AEC3200F12F51 /* libEGL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libEGL.dylib; path = ../../gfx/include/libEGL.dylib; sourceTree = "<group>"; };
 		84B390A3293AF21000F12F51 /* libGLESv2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLESv2.dylib; path = ../../gfx/include/libGLESv2.dylib; sourceTree = "<group>"; };
+		84C3CD7F293F99C0007CFB8B /* libANGLE.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libANGLE.dylib; path = ANGLE/libANGLE.dylib; sourceTree = "<group>"; };
 		84DD5E9E1A88E45B007336C1 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = /System/Library/Frameworks/CoreVideo.framework; sourceTree = "<absolute>"; };
 		84DD5EA61A89E406007336C1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = /System/Library/Frameworks/CoreLocation.framework; sourceTree = "<absolute>"; };
 		84DD5EA81A89E4BE007336C1 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
@@ -571,8 +571,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84B390A4293AF21000F12F51 /* libGLESv2.dylib in Frameworks */,
-				84B390A2293AEC3200F12F51 /* libEGL.dylib in Frameworks */,
+				84C3CD81293F9E7F007CFB8B /* libANGLE.dylib in Frameworks */,
 				D27C508C2228362700113BC0 /* AudioToolbox.framework in Frameworks */,
 				D27C508B2228361D00113BC0 /* AVFoundation.framework in Frameworks */,
 				05A8E23C20A63CF50084ABDA /* QuartzCore.framework in Frameworks */,
@@ -1421,6 +1420,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84C3CD7F293F99C0007CFB8B /* libANGLE.dylib */,
 				84B390A3293AF21000F12F51 /* libGLESv2.dylib */,
 				84B390A1293AEC3200F12F51 /* libEGL.dylib */,
 				8449BACC28A3E95E00F453E5 /* OpenGL.framework */,
@@ -1864,7 +1864,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/../../gfx/include";
+				LIBRARY_SEARCH_PATHS = (
+					"${PROJECT_DIR}/../../gfx/include",
+					"$(PROJECT_DIR)/ANGLE",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				OTHER_CFLAGS = (
 					"$(inherited)",
@@ -1971,7 +1974,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "${PROJECT_DIR}/../../gfx/include";
+				LIBRARY_SEARCH_PATHS = (
+					"${PROJECT_DIR}/../../gfx/include",
+					"$(PROJECT_DIR)/ANGLE",
+				);
 				OTHER_CFLAGS = (
 					"$(inherited)",
 					"-DHAVE_RUNAHEAD",

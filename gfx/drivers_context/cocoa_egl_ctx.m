@@ -60,8 +60,7 @@ typedef struct cocoa_egl_ctx_data
 
 static egl_ctx_data_t cocoa_egl;
 #ifdef HAVE_DYLIB
-static dylib_t  gles_dll_handle = NULL;
-static dylib_t  egl_dll_handle = NULL;
+static dylib_t  dll_handle = NULL;
 #endif
 
 /* Forward declaration */
@@ -146,8 +145,7 @@ static void cocoa_egl_gfx_ctx_destroy(void *data)
    egl_destroy(&cocoa_egl);
 
 #ifdef HAVE_DYLIB
-   dylib_close(egl_dll_handle);
-   dylib_close(gles_dll_handle);
+   dylib_close(dll_handle);
 #endif
 
    free(cocoa_ctx);
@@ -199,8 +197,6 @@ static void cocoa_egl_gfx_ctx_get_video_size(void *data,
 static gfx_ctx_proc_t cocoa_egl_gfx_ctx_get_proc_address(const char *symbol_name)
 {
 #ifdef HAVE_DYLIB
-   bool is_egl_symbol = 'e' == *symbol_name;
-   dylib_t dll_handle = is_egl_symbol ? egl_dll_handle : gles_dll_handle;
    return (gfx_ctx_proc_t) dylib_proc(dll_handle, symbol_name);
 #else
    return NULL;
@@ -328,8 +324,7 @@ static void *cocoa_egl_gfx_ctx_init(void *video_driver)
    [apple_platform setViewType:APPLE_VIEW_TYPE_METAL];
 
 #ifdef HAVE_DYLIB
-   gles_dll_handle = dylib_load("@executable_path/../Frameworks/libGLESv2.dylib");
-   egl_dll_handle = dylib_load("@executable_path/../Frameworks/libEGL.dylib");
+   dll_handle = dylib_load("@executable_path/../Frameworks/libANGLE.dylib");
 #endif
 
    return cocoa_ctx;

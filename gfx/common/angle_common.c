@@ -88,6 +88,7 @@ static const char* backendNamesList[] = {
 static const EGLint backendMetal[] =
 {
     EGL_PLATFORM_ANGLE_TYPE_ANGLE, EGL_PLATFORM_ANGLE_TYPE_METAL_ANGLE,
+    EGL_POWER_PREFERENCE_ANGLE, EGL_HIGH_POWER_ANGLE,
     EGL_NONE,
 };
 
