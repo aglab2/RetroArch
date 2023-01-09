@@ -26,6 +26,7 @@
 #include "joypad_connection.h"
 
 static joypad_connection_entry_t pad_map[] = {
+   /* [Parallel Launcher] Disabling special behaviour for these devices
    { "Nintendo RVL-CNT-01",
       VID_NINTENDO,
       PID_NINTENDO_PRO,
@@ -106,6 +107,7 @@ static joypad_connection_entry_t pad_map[] = {
       PID_DRAGONRISE,
       &pad_connection_dragonrise
    },
+   */
    { 0, 0}
 };
 
@@ -240,7 +242,7 @@ void legacy_pad_connection_pad_deregister(joypad_connection_t *pad_list, pad_con
 void pad_connection_pad_deregister(joypad_connection_t *joyconn,
       pad_connection_interface_t *iface, void *pad_data)
 {
-   int i; 
+   int i;
 
    if (!iface || !iface->multi_pad)
    {
@@ -279,7 +281,7 @@ void pad_connection_pad_refresh(joypad_connection_t *joyconn,
       state = iface->status(device_data, i);
       switch(state)
       {
-         /* The pad slot is bound to a joypad 
+         /* The pad slot is bound to a joypad
             that's no longer connected */
          case PAD_CONNECT_BOUND:
             joypad = iface->joypad(device_data, i);
@@ -334,14 +336,14 @@ void pad_connection_pad_register(joypad_connection_t *joyconn,
 
    for (i = 0; i < max_pad; i++)
    {
-      int status = iface->multi_pad 
-         ? iface->status(device_data, i) 
+      int status = iface->multi_pad
+         ? iface->status(device_data, i)
          : PAD_CONNECT_READY;
       if (status == PAD_CONNECT_READY)
       {
          void *connection = NULL;
-         int found_slot   = (slot == SLOT_AUTO) 
-            ? pad_connection_find_vacant_pad(joyconn) 
+         int found_slot   = (slot == SLOT_AUTO)
+            ? pad_connection_find_vacant_pad(joyconn)
             : slot;
          if (found_slot < 0)
             continue;
@@ -383,7 +385,7 @@ int32_t pad_connection_pad_init_entry(joypad_connection_t *joyconn,
    }
    else
    {
-      /* We failed to find a matching pad. 
+      /* We failed to find a matching pad.
        * Set up one without an interface */
       RARCH_DBG("Pad was not matched. Setting up without an interface.\n");
       conn->iface      = NULL;
@@ -429,7 +431,7 @@ void pad_connection_packet(joypad_connection_t *joyconn, uint32_t pad,
 {
    if (     joyconn
          && joyconn->connected
-         && joyconn->connection 
+         && joyconn->connection
          && joyconn->iface
          && joyconn->iface->packet_handler)
       joyconn->iface->packet_handler(joyconn->connection, data, length);
