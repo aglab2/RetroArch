@@ -26,6 +26,7 @@
 #include "joypad_connection.h"
 
 static joypad_connection_entry_t pad_map[] = {
+   /* [Parallel Launcher] Disabling special behaviour for these devices
    { "Nintendo RVL-CNT-01",
       VID_NINTENDO,
       PID_NINTENDO_PRO,
@@ -106,6 +107,7 @@ static joypad_connection_entry_t pad_map[] = {
       PID_DRAGONRISE,
       &pad_connection_dragonrise
    },
+   */
    { 0, 0}
 };
 
